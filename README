@@ -1,0 +1,18 @@
+Create a network so containers can see each other
+
+  docker network create elixir
+
+For each node, run the following replacing NAME with a unique name
+
+  docker run -ti --net=elixir -w /root -v $PWD:/root elixir iex --sname NAME node.ex
+
+Put each node's name (NAME@container-id) in hosts
+
+Now create run the host
+
+  docker run -ti --net=elixir -w /root -v $PWD:/root elixir iex --sname host cluster.ex
+
+From the host shell, execute
+
+  import_file "node.ex"
+  Cluster.run
