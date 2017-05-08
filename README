@@ -1,3 +1,6 @@
+With Docker
+-----------
+
 Create a network so containers can see each other
 
   docker network create elixir
@@ -12,6 +15,22 @@ Now create run the host
 
   docker run -ti --net=elixir -w /root -v $PWD:/root elixir iex --sname host cluster.ex
 
+From the host shell, execute
+
+  import_file "node.ex"
+  Cluster.run
+
+In a local network
+------------------
+
+For each host
+
+  Create the cookie: echo 123 > ~/.erlang.cookie && chmod 700 ~/.erlang.cookie
+  Create the source file with the content of node.ex
+  Run the shell: iex --name NAME@hostname node.ex
+  Put each node's name (NAME@hostname) in hosts
+  
+Run the host shell: iex --name host@hostname cluster.ex
 From the host shell, execute
 
   import_file "node.ex"
